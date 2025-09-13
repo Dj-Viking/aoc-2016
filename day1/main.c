@@ -1,9 +1,11 @@
 
 #include <stdio.h>
+#include "./utils.h"
 
 int main() 
 {
-	printf("hello day1\n");
+	int res = hello();
+	printf("hello day1\n %d\n", res);
 	return 0;
 }
 
