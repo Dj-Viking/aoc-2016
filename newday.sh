@@ -42,23 +42,17 @@ if [ "$LANG_TO_USE" = "c" ]; then
 EOF
 fi
 
-if [ "$LANG" = "cobol" ]; then
-	cat << EOF > main.cob
->>SOURCE FORMAT IS FREE
-          IDENTIFICATION DIVISION.
-          PROGRAM-ID. main.
-          ENVIRONMENT DIVISION.
-          DATA DIVISION.
-          WORKING-STORAGE SECTION.
-          01 vars-to-add.
-      *>     single digit (01)
-             05 a    pic 9(01) value 2.
-             05 b    pic 9(01) value 2.
-          PROCEDURE DIVISION.
-             add a to b.
-             display "Add result -> " b. *> should display 4
-             stop run.
-EOF
+if [ "$LANG_TO_USE" = "cobol" ]; then
+	cp -r ~/projects/hello-cobol/probe .;
+
+	cp -r probe "day$NUM";
+	rm -rf probe;
+	cd "day$NUM";
+	cp -r . ..;
+	cd ..;
+	rm -rf "day$NUM";
+	mv math.cob "day$NUM.cob";
+
 fi
 
 popd >> /dev/null

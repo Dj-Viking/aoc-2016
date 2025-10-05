@@ -18,11 +18,13 @@ FOLDER="$LANG_TO_USE/$DAY$NUM"
 
 pushd "$FOLDER" >> /dev/null
 
-if [ "$LANG" = "c" ]; then
+if [ "$LANG_TO_USE" = "c" ]; then
+	echo "compiling c"; 
 	gcc -Wall -pedantic -o main main.c && ./main
 fi
 
-if [ "$LANG" = "cobol" ]; then
+if [ "$LANG_TO_USE" = "cobol" ]; then
+	echo "compiling cobol"; 
 	# assumes you have gnucobol installed somewhere in your path
 	# compile and run
 	cobc -x "./main.cob" \
