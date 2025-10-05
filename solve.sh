@@ -27,11 +27,11 @@ if [ "$LANG_TO_USE" = "cobol" ]; then
 	echo "compiling cobol"; 
 	# assumes you have gnucobol installed somewhere in your path
 	# compile and run
-	cobc -x "./main.cob" \
+	cobc -x "./day$NUM.cob" \
 		&& echo "" \
 		&& echo "running..." \
 		&& echo "" \
-		&& "./main" \
+		&& "./day$NUM" \
 		&& echo "" \
 		&& echo "done..." \
 		&& echo "";
