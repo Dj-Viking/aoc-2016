@@ -35,11 +35,11 @@ else
 fi
 
 #compile and run
-cobc -x "../$FILENAME" \
+cobc -x "../$FILENAME" -o "main-$FILE_TO_RUN" \
 	&& echo "" \
 	&& echo "running..." \
 	&& echo "" \
-	&& "./$FILE_TO_RUN" \
+	&& "./main-$FILE_TO_RUN" \
 	&& echo "" \
 	&& echo "done..." \
 	&& echo "";

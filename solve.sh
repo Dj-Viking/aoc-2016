@@ -16,7 +16,8 @@ LANG_TO_USE=$2
 
 FOLDER="$LANG_TO_USE/$DAY$NUM"
 
-pushd "$FOLDER" >> /dev/null
+# pushd "$FOLDER" >> /dev/null
+pushd "$FOLDER"
 
 if [ "$LANG_TO_USE" = "c" ]; then
 	echo "compiling c"; 
@@ -25,9 +26,25 @@ fi
 
 if [ "$LANG_TO_USE" = "cobol" ]; then
 	echo "compiling cobol"; 
+
+	# clean up
+	if [ -d "./dist" ]; then
+		if [ -z "./dist/day$NUM" ]; then
+			rm "./dist/day$NUM";
+		fi
+	fi
+
+	# make dist dir if not exist
+	if ! [ -d "dist" ]; then
+		mkdir dist;
+		pushd dist;
+	else
+		pushd dist;
+	fi
+
 	# assumes you have gnucobol installed somewhere in your path
-	# compile and run
-	cobc -x "./day$NUM.cob" \
+	#compile and run
+	cobc -x "../day$NUM.cob" \
 		&& echo "" \
 		&& echo "running..." \
 		&& echo "" \
@@ -35,6 +52,8 @@ if [ "$LANG_TO_USE" = "cobol" ]; then
 		&& echo "" \
 		&& echo "done..." \
 		&& echo "";
+
+	popd
 fi
 
 popd >> /dev/null
