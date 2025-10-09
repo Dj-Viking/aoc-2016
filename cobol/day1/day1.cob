@@ -18,6 +18,7 @@
            WORKING-STORAGE SECTION.
            01 eof-check       pic X value "N". 
            01 filestatus      pic XX.
+           01 answer          pic 9 value zero. 
            PROCEDURE DIVISION.
 
           *> cobol-lint CL002 main-program
@@ -37,6 +38,10 @@
                end-if
                .
 
+      *> do something here per character
+      *> of the line, maybe use a temp string
+      *> to check what each set of 3 characters are
+      *> and add up how far we went 
            read-file.
                perform until eof-check = "Y"
                    read sample
