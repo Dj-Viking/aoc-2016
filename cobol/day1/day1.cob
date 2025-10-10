@@ -2,6 +2,7 @@
            IDENTIFICATION DIVISION.
            PROGRAM-ID. day1.
            ENVIRONMENT DIVISION.
+
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
                select sample
