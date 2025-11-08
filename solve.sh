@@ -24,6 +24,11 @@ if [ "$LANG_TO_USE" = "c" ]; then
 	gcc -Wall -pedantic -o main main.c && ./main
 fi
 
+if [ "$LANG_TO_USE" = "ps1" ]; then
+	echo "running powershell"
+	pwsh -noprofile -file "main.ps1"
+fi
+
 if [ "$LANG_TO_USE" = "cobol" ]; then
 	echo "compiling cobol"; 
 

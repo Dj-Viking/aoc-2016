@@ -31,14 +31,22 @@ fi
 
 if [ "$LANG_TO_USE" = "c" ]; then
 	cat << EOF > main.c 
+#include <stdio.h>
 
-	#include <stdio.h>
+int main() 
+{
+	printf("hello day1");
+	return 0;
+}
+EOF
+fi
 
-	int main() 
-	{
-		printf("hello day1");
-		return 0;
-	}
+if [ "$LANG_TO_USE" = "ps1" ]; then
+	cat << EOF > main.ps1 
+param()
+\$answer = \$null
+
+write-host "\$answer"
 EOF
 fi
 
