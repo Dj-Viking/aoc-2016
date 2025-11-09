@@ -32,7 +32,6 @@
 	       01 south           pic x     value "S".
 	       01 east            pic x     value "E".
 	       01 west            pic x     value "W".
-           01 prev-instr      pic x     value spaces.
       *>     end-directions
            01 ws-start        pic 9(4)  value 0.
            01 ws-field-len    pic 9(4)  value 0.
@@ -50,7 +49,7 @@
            main-program.
                perform init-file
                
-               perform READ-CHARS
+               perform read-chars
 
                perform close-file
 
