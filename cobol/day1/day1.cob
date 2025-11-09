@@ -125,27 +125,8 @@
                                move ws-unstring(2:1) 
                                    to parsed-instr
                                 
-      *>                       slicing dynamically not working :(
-      *>                       have to check how long the string is to know
-      *>                       how much of the unstring to slice 
-
-                               evaluate true
-                                   when ws-field-len = 3
-                                       perform 
-                                           move function numval(ws-unstring(3:1))
-                                               to parsed-distance
-                                       end-perform
-                                   when ws-field-len = 4
-                                       perform 
-                                           move function numval(ws-unstring(3:2))
-                                               to parsed-distance
-                                       end-perform
-                                   when ws-field-len = 5
-                                       perform 
-                                           move function numval(ws-unstring(3:3))
-                                               to parsed-distance
-                                       end-perform
-                               end-evaluate
+                               move function numval(ws-unstring(3:ws-field-len - 2))
+                                   to parsed-distance
                            end-if 
 
                            display "========="
