@@ -25,7 +25,9 @@
 	       01 coord-y         pic S9(5) value 0.
       *>     end-coords
       *>     directions stuff
-           01 parsed-instr    pic x     value "R".
+           01 parsed-instr    pic x     value spaces.
+           01 ws-left         pic x     value "L".
+           01 ws-right        pic x     value "R".
            01 parsed-distance pic 9(3)  value 0.
 	       01 my-direction    pic x     value "N".
 	       01 north           pic x     value "N".
@@ -38,7 +40,7 @@
            01 ws-loop-str-end pic 9(4)  value 0.
            01 ws-count        pic 9(4)  value 0.
            01 ws-char         pic x. 
-           01 ws-answer-num   pic 9(5) value 0.
+           01 ws-answer-num   pic 9(5)  value 0.
            01 ws-unstring     pic X(5).
            01 ws-table.
               05 ws-item occurs 700 times.
@@ -139,52 +141,52 @@
       *>                        note: check and
       *>                              change direction
                            evaluate true
-                               when parsed-instr = "R"
+                               when parsed-instr = ws-right
                                    perform 
                                        evaluate true
-                                           when my-direction = "N"
+                                           when my-direction = north
                                                perform
-                                                   move "E"
+                                                   move east
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "S"
+                                           when my-direction = south
                                                perform
-                                                   move "W"
+                                                   move west
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "E"
+                                           when my-direction = east
                                                perform
-                                                   move "S"
+                                                   move south
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "W"
+                                           when my-direction = west
                                                perform
-                                                   move "N"
+                                                   move north
                                                    to my-direction
                                                end-perform
                                        end-evaluate
                                    end-perform
-                               when parsed-instr = "L"
+                               when parsed-instr = ws-left
                                    perform 
                                        evaluate true
-                                           when my-direction = "N"
+                                           when my-direction = north
                                                perform
-                                                   move "W"
+                                                   move west
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "S"
+                                           when my-direction = south
                                                perform
-                                                   move "E"
+                                                   move east
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "E"
+                                           when my-direction = east
                                                perform
-                                                   move "N"
+                                                   move north
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "W"
+                                           when my-direction = west
                                                perform
-                                                   move "S"
+                                                   move south
                                                    to my-direction
                                                end-perform
                                        end-evaluate
@@ -196,28 +198,28 @@
       *>                        note: move that direction
       *>                              by the unstringed number 
                            evaluate true
-                               when my-direction = "N"
+                               when my-direction = north
                                    perform 
                                        compute coord-y = 
                                            coord-y + 
                                            function numval(
                                                parsed-distance) 
                                    end-perform
-                               when my-direction = "S"
+                               when my-direction = south
                                    perform 
                                        compute coord-y = 
                                            coord-y - 
                                            function numval(
                                                parsed-distance) 
                                    end-perform
-                               when my-direction = "E"
+                               when my-direction = east
                                    perform 
                                        compute coord-x = 
                                            coord-x + 
                                            function numval(
                                                parsed-distance) 
                                    end-perform
-                               when my-direction = "W"
+                               when my-direction = west
                                    perform 
                                        compute coord-x = 
                                            coord-x - 
@@ -270,52 +272,52 @@
       *>                        note: check and
       *>                              change direction
                            evaluate true
-                               when parsed-instr = "R"
+                               when parsed-instr = ws-right
                                    perform 
                                        evaluate true
-                                           when my-direction = "N"
+                                           when my-direction = north
                                                perform
-                                                   move "E"
+                                                   move east
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "S"
+                                           when my-direction = south
                                                perform
-                                                   move "W"
+                                                   move west
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "E"
+                                           when my-direction = east
                                                perform
-                                                   move "S"
+                                                   move south
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "W"
+                                           when my-direction = west
                                                perform
-                                                   move "N"
+                                                   move north
                                                    to my-direction
                                                end-perform
                                        end-evaluate
                                    end-perform
-                               when parsed-instr = "L"
+                               when parsed-instr = ws-left
                                    perform 
                                        evaluate true
-                                           when my-direction = "N"
+                                           when my-direction = north
                                                perform
-                                                   move "W"
+                                                   move west
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "S"
+                                           when my-direction = south
                                                perform
-                                                   move "E"
+                                                   move east
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "E"
+                                           when my-direction = east
                                                perform
-                                                   move "N"
+                                                   move north
                                                    to my-direction
                                                end-perform
-                                           when my-direction = "W"
+                                           when my-direction = west
                                                perform
-                                                   move "S"
+                                                   move south
                                                    to my-direction
                                                end-perform
                                        end-evaluate
@@ -325,28 +327,28 @@
       *>                        note: move that direction
       *>                              by the unstringed number 
                            evaluate true
-                               when my-direction = "N"
+                               when my-direction = north
                                    perform 
                                        compute coord-y = 
                                            coord-y + 
                                            function numval(
                                                parsed-distance) 
                                    end-perform
-                               when my-direction = "S"
+                               when my-direction = south
                                    perform 
                                        compute coord-y = 
                                            coord-y - 
                                            function numval(
                                                parsed-distance) 
                                    end-perform
-                               when my-direction = "E"
+                               when my-direction = east
                                    perform 
                                        compute coord-x = 
                                            coord-x + 
                                            function numval(
                                                parsed-distance) 
                                    end-perform
-                               when my-direction = "W"
+                               when my-direction = west
                                    perform 
                                        compute coord-x = 
                                            coord-x - 

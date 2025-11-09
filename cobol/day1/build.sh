@@ -39,7 +39,7 @@ cobc -x "../$FILENAME" -o "main-$FILE_TO_RUN" \
 	&& echo "" \
 	&& echo "running..." \
 	&& echo "" \
-	&& "./main-$FILE_TO_RUN" \
+	&& time ./main-$FILE_TO_RUN \
 	&& echo "" \
 	&& echo "done..." \
 	&& echo "";

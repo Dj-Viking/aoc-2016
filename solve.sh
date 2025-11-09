@@ -53,7 +53,7 @@ if [ "$LANG_TO_USE" = "cobol" ]; then
 		&& echo "" \
 		&& echo "running..." \
 		&& echo "" \
-		&& "./day$NUM" \
+		&& time ./day$NUM \
 		&& echo "" \
 		&& echo "done..." \
 		&& echo "";
