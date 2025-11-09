@@ -124,10 +124,6 @@
                            else 
                                move ws-unstring(2:1) 
                                    to parsed-instr
-      *>                       todo: the parsed number
-      *>                       needs to be parsed correctly
-      *>                       there could be at least a 3 digit number 
-      *>                       there 
                                 
       *>                       slicing dynamically not working :(
       *>                       have to check how long the string is to know
@@ -396,11 +392,6 @@
                    function abs(coord-x) + function abs(coord-y) 
                display "answer: " ws-answer-num
 
-      *>         perform varying ws-loop-str-end 
-      *>                 from 1 by 1 
-      *>                 until ws-loop-str-end > ws-count
-      *>             display "item " ws-loop-str-end ":" ws-text(ws-loop-str-end)
-      *>         end-perform
                .
 
 
