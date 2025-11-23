@@ -22,10 +22,18 @@
            01 ws-samplelen    pic 9(4)  value 0.
       *>     coords
 	       01 coord-x         pic S9(5) value 0.
+	       01 coord-2-x       pic S9(5) value 0.
+           01 ustringed-coord pic x(13) value spaces.
 	       01 coord-y         pic S9(5) value 0.
+	       01 coord-2-y       pic S9(5) value 0.
+           01 ws-coord-str    pic x(9)  value spaces.
+           01 ws-x-coord-sign pic x(1)  value spaces.
+           01 ws-y-coord-sign pic x(1)  value spaces.
       *>     end-coords
       *>     directions stuff
            01 parsed-instr    pic x     value spaces.
+      *>     how many blocks away first place visited twice?  
+           01 ws-answer2-num  pic S9(5) value 0.
            01 ws-left         pic x     value "L".
            01 ws-right        pic x     value "R".
            01 parsed-distance pic 9(3)  value 0.
@@ -37,14 +45,27 @@
       *>     end-directions
            01 ws-start        pic 9(4)  value 0.
            01 ws-field-len    pic 9(4)  value 0.
+           01 ws-index        pic 9(4)  value 0.
            01 ws-loop-str-end pic 9(4)  value 0.
            01 ws-count        pic 9(4)  value 0.
            01 ws-char         pic x. 
            01 ws-answer-num   pic 9(5)  value 0.
            01 ws-unstring     pic X(5).
+           01 ws-states-cnt   pic S9(5) value 0.
+           01 states-table.
+               05 filler      pic s9(5)  value 0. 
+               05 filler      pic x(13)  value "+00000,+00000". 
+      *>     visited coords table
+           01 rdf-states-table redefines states-table.
+               05 states-group occurs 700 times.
+      *>       note: how many times we visited that coord
+                   10 states-visited-cnt pic s9(5). 
+      *>       note:     x , y
+      *>               0000,0001
+                   10 states-coord       pic x(13).  
            01 ws-table.
-              05 ws-item occurs 700 times.
-                 10 ws-text   pic x(40). 
+               05 ws-item occurs 700 times.
+                 10 ws-text   pic x(40).                                
 
            PROCEDURE DIVISION.
       *> cobol-lint CL002 main-program
@@ -57,7 +78,7 @@
 
                stop run.
 
-           INIT-FILE.
+           init-file.
                OPEN INPUT sample
                if FileStatus not = "00"
                    display "error opening file. status=" FileStatus
@@ -71,7 +92,7 @@
                end-read
                .
 
-           READ-CHARS.
+           read-chars.
                move function length(function trim (sampleline)) to ws-samplelen
                move 1 to ws-start
                move 0 to ws-count
@@ -113,7 +134,7 @@
                            display "unstring1: [" ws-unstring(1:1) "]"
                            display "unstring2: [" ws-unstring(2:1) "]"
                            display "unstring3: [" ws-unstring(3:1) "]"
-                           display "if block calculating...: "
+                           display "***** if block calculating...: "
                            display "========="
 
                            if ws-start = "0001"
@@ -194,7 +215,7 @@
                            end-evaluate
                            display "my new direction: " my-direction
                            display "========="
-
+*> 
       *>                        note: move that direction
       *>                              by the unstringed number 
                            evaluate true
@@ -230,6 +251,68 @@
                            display "========="
                            display "new coords: " coord-x "," coord-y
 
+
+      *>                 note: get the sign char for our current coords
+
+      *>                     zero has positive sign (shrugs)
+                           if coord-x = zeros 
+      *>                         display "x = zero"
+                               move "+"
+                                   to ws-x-coord-sign
+                           end-if
+                           if coord-y = zeros 
+      *>                         display "y = zero"
+                               move "+"
+                                   to ws-y-coord-sign
+                           end-if
+
+                           if coord-x < 0
+      *>                         display "x lt zero"
+                               move "-"
+                                   to ws-x-coord-sign
+                           else 
+                               if coord-x > 0
+      *>                             display "x gt zero"
+                                   move "+"
+                                       to ws-x-coord-sign
+                               end-if
+                           end-if
+
+                           if coord-y < 0
+      *>                         display "y lt zero"
+                               move "-" 
+                                   to ws-y-coord-sign 
+                           else 
+                               if coord-y > 0
+                                   move "+" 
+                                       to ws-y-coord-sign 
+      *>                             display "y gt zero"
+                               end-if
+                           end-if
+
+      *>                     note: create the coordstring 
+
+                           move function concatenate(ws-x-coord-sign,
+                                                     function abs(coord-x),
+                                                     ",",
+                                                     ws-y-coord-sign,
+                                                     function abs(coord-y)) 
+                               to states-coord(ws-count)
+
+      *>                     note: initialize the coord count if we havent
+      *>                           been there yet
+                           if states-visited-cnt(ws-count) = zero
+                           and states-coord(ws-count) not  = spaces
+                               move 1 
+                                   to states-visited-cnt(ws-count)
+                           end-if
+
+                           move spaces to ustringed-coord
+
+      *>                     note: check visited need to plot every point visited
+      *>                           on the graph including the starting point of each
+      *>                           movement
+
                            move sampleline(ws-start:ws-field-len)
                                to ws-text(ws-count)
                        end-if
@@ -248,8 +331,8 @@
                                into ws-unstring;
 
                            display "========="
-                           display "else block calculating...: " ws-answer-num
-
+                           display "***** else block calculating...: " ws-answer-num
+*> 
                            display "unstring1: [" ws-unstring(1:1) "]"
                            display "unstring2: [" ws-unstring(2:1) "]"
                            display "unstring3: [" ws-unstring(3:1) "]"
@@ -357,6 +440,74 @@
                                    end-perform
                            end-evaluate
 
+                           display "========="
+                           display "new coords: " coord-x "," coord-y
+
+      *>                 note: get the sign char for our current coords
+
+      *>                     zero has positive sign (shrugs)
+                           if coord-x = zeros 
+      *>                         display "x = zero"
+                               move "+"
+                                   to ws-x-coord-sign
+                           end-if
+                           if coord-y = zeros 
+      *>                         display "y = zero"
+                               move "+"
+                                   to ws-y-coord-sign
+                           end-if
+
+                           if coord-x < 0
+      *>                         display "x lt zero"
+                               move "-"
+                                   to ws-x-coord-sign
+                           else 
+                               if coord-x > 0
+      *>                             display "x gt zero"
+                                   move "+"
+                                       to ws-x-coord-sign
+                               end-if
+                           end-if
+
+                           if coord-y < 0
+      *>                         display "y lt zero"
+                               move "-"
+                                   to ws-y-coord-sign
+                           else 
+                               if coord-y > 0
+      *>                             display "y gt zero"
+                                   move "+"
+                                       to ws-y-coord-sign
+                               end-if
+                           end-if
+
+
+      *>                     note: create the coordstring 
+
+                           move function concatenate(ws-x-coord-sign,
+                                                     function abs(coord-x),
+                                                     ",",
+                                                     ws-y-coord-sign,
+                                                     function abs(coord-y))
+                               to states-coord(ws-count)
+
+      *>                     note: initialize the coord count if we havent
+      *>                           been there yet
+                           if states-visited-cnt(ws-count) = zero
+                           and states-coord(ws-count) not  = spaces 
+                               move 1 
+                                   to states-visited-cnt(ws-count)
+                           end-if
+
+                           display "index: " ws-count "coord: " states-coord(ws-count)
+                           display "visited times: " states-visited-cnt(ws-count)
+
+                           move spaces to ustringed-coord
+
+      *>                     note: check visited need to plot every point visited
+      *>                           on the graph including the starting point of each
+      *>                           movement
+
                            move sampleline(ws-start:ws-field-len)
                                to ws-text(ws-count)
                        end-if
@@ -369,10 +520,17 @@
       *>       able to add the numbers but i need to think about 
       *>       the direction!!
 
-               display "end coords x: " coord-x " y: " coord-y
+      *>         display "end coords x: " coord-x " y: " coord-y
                compute ws-answer-num =
+      *>           manhatten distance
                    function abs(coord-x) + function abs(coord-y) 
                display "answer: " ws-answer-num
+
+      *>         note: loop through the table to check when the visited count
+      *>               becomes 2 and then k
+
+      *>         4 is not correct!
+               display "answer2: " ws-answer2-num
 
                .
 
