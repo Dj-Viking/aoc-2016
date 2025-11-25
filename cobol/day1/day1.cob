@@ -21,6 +21,8 @@
            01 ws-delim        pic XX    value ",".
            01 ws-samplelen    pic 9(4)  value 0.
       *>     coords
+           01 prev-x          pic S9(5) value 0.
+           01 prev-y          pic S9(5) value 0.
 	       01 coord-x         pic S9(5) value 0.
 	       01 coord-2-x       pic S9(5) value 0.
            01 ustringed-coord pic x(13) value spaces.
@@ -56,13 +58,14 @@
                05 filler      pic s9(5)  value 0. 
                05 filler      pic x(13)  value "+00000,+00000". 
       *>     visited coords table
+      *>     (could potentially be all points on a graph)
            01 rdf-states-table redefines states-table.
-               05 states-group occurs 700 times.
+               05 states-group occurs 32767 times.
       *>       note: how many times we visited that coord
-                   10 states-visited-cnt pic s9(5). 
+                   10 states-visited-cnt pic s9(5).
       *>       note:     x , y
       *>               0000,0001
-                   10 states-coord       pic x(13).  
+                   10 states-coord       pic x(13).
            01 ws-table.
                05 ws-item occurs 700 times.
                  10 ws-text   pic x(40).                                
@@ -79,7 +82,7 @@
                stop run.
 
            init-file.
-               OPEN INPUT sample
+               open input sample
                if FileStatus not = "00"
                    display "error opening file. status=" FileStatus
                    stop run
@@ -139,6 +142,10 @@
 
                            if ws-start = "0001"
                                display "very beginning of parsing"
+
+                               move 0 to prev-x 
+                               move 0 to prev-y 
+
                                move ws-unstring(1:1) 
                                    to parsed-instr
                                move function numval(ws-unstring(2:1)) 
@@ -312,6 +319,28 @@
       *>                     note: check visited need to plot every point visited
       *>                           on the graph including the starting point of each
       *>                           movement
+                           perform varying prev-x
+                           from 1 by 1 
+                           until prev-x = coord-x
+      *>                         plot x points in the range
+      *>                         where and how to store the points before plotting them in the table?
+                           end-perform
+
+                           perform varying prev-y
+                           from 1 by 1 
+                           until prev-y = coord-y
+      *>                         plot y points in the range
+      *>                         where and how to store the points before plotting them in the table?
+                           end-perform
+
+      *>                     note: set visited coords
+                           
+
+      *>                     set the prev coord to the one we just moved to
+                           move coord-x 
+                               to prev-x
+                           move coord-y 
+                               to prev-y
 
                            move sampleline(ws-start:ws-field-len)
                                to ws-text(ws-count)
@@ -507,6 +536,28 @@
       *>                     note: check visited need to plot every point visited
       *>                           on the graph including the starting point of each
       *>                           movement
+                           perform varying prev-x
+                           from 1 by 1 
+                           until prev-x = coord-x
+      *>                         plot x points in the range
+      *>                         where and how to store the points before plotting them in the table?
+                           end-perform
+
+                           perform varying prev-y
+                           from 1 by 1 
+                           until prev-y = coord-y
+      *>                         plot y points in the range
+      *>                         where and how to store the points before plotting them in the table?
+                           end-perform
+
+      *>                     note: set visited coords
+                           
+
+      *>                     set the prev coord to the one we just moved to
+                           move coord-x 
+                               to prev-x
+                           move coord-y 
+                               to prev-y
 
                            move sampleline(ws-start:ws-field-len)
                                to ws-text(ws-count)
