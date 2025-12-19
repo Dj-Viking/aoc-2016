@@ -1,3 +1,13 @@
-main
+# build files for _superbol cobol debugger
+cobol/day1/day1.*
+cobol/day1/day1
+_superbol
+
+# don't ignore cobol files
+!day*.cob
+
+# aoc samples
 sample*
+
+# build script build files
 dist

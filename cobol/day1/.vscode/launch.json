@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "SuperBOL: debug (launch)",
+            "type": "superbol-gdb",
+            "request": "launch",
+            "preLaunchTask": "SuperBOL: build (debug)",
+            "target": "${file}",
+            "arguments": "-x -free",
+            "cwd": "${workspaceFolder}",
+            "gdbtty": false
+        }
+    ]
+}

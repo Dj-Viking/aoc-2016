@@ -6,7 +6,7 @@
            INPUT-OUTPUT SECTION.
            FILE-CONTROL.
                select sample
-                   assign to "../sample",
+                   assign to "./sample",
                    organization is line sequential,
                    file status is filestatus.
 
@@ -24,10 +24,10 @@
            01 prev-x          pic S9(5) value 0.
            01 prev-y          pic S9(5) value 0.
 	       01 coord-x         pic S9(5) value 0.
-	       01 coord-2-x       pic S9(5) value 0.
+	       01 coord-x-copy    pic S9(5) value 0.
            01 ustringed-coord pic x(13) value spaces.
 	       01 coord-y         pic S9(5) value 0.
-	       01 coord-2-y       pic S9(5) value 0.
+	       01 coord-y-copy    pic S9(5) value 0.
            01 ws-coord-str    pic x(9)  value spaces.
            01 ws-x-coord-sign pic x(1)  value spaces.
            01 ws-y-coord-sign pic x(1)  value spaces.
@@ -54,6 +54,7 @@
            01 ws-answer-num   pic 9(5)  value 0.
            01 ws-unstring     pic X(5).
            01 ws-states-cnt   pic S9(5) value 0.
+           01 state-table-idx pic S9(5) value 0.
            01 states-table.
                05 filler      pic s9(5)  value 0. 
                05 filler      pic x(13)  value "+00000,+00000". 
@@ -101,8 +102,8 @@
                move 0 to ws-count
                
                perform varying ws-loop-str-end 
-                       from 1 by 1 
-                       until ws-loop-str-end > ws-samplelen
+               from 1 by 1 
+               until ws-loop-str-end > ws-samplelen
                    move sampleline(ws-loop-str-end:1) 
                        to ws-char
       *>           scanning across string
@@ -319,28 +320,62 @@
       *>                     note: check visited need to plot every point visited
       *>                           on the graph including the starting point of each
       *>                           movement
-                           perform varying prev-x
-                           from 1 by 1 
-                           until prev-x = coord-x
-      *>                         plot x points in the range
-      *>                         where and how to store the points before plotting them in the table?
-                           end-perform
+      *>                           depending on the direction run the loop 
+      *>                           to plot those points in that direction
+                           if my-direction = north
+      *>                         positive direction y
+                               perform varying prev-y
+                               from 1 by 1 
+                               until prev-y = coord-y
+                                      
+          *>                         plot y points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                 display "blah1"
+                               end-perform
+                           end-if
+                           if my-direction = south
+                               move 0 to coord-y-copy
+                               compute coord-y-copy = 0 + function abs(coord-y)
 
-                           perform varying prev-y
-                           from 1 by 1 
-                           until prev-y = coord-y
-      *>                         plot y points in the range
-      *>                         where and how to store the points before plotting them in the table?
-                           end-perform
+      *>                         negative direction y
+                               perform varying coord-y-copy
+                               from coord-y-copy by -1 
+                               until coord-y-copy = 0
+          *>                         plot y points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                   display "blah2"
+                               end-perform
+                           end-if
+      *>                     exit perform
+                           if my-direction = east
+      *>                         positive direction x
+                               perform varying prev-x
+                               from 1 by 1 
+                               until prev-x = coord-x
+                               
+          *>                         plot x points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                     display "blah3"
+                               end-perform
+                           end-if
+                           if my-direction = west
+                               move 0 to coord-x-copy
+                               compute coord-x-copy = 0 + function abs(coord-x)
 
-      *>                     note: set visited coords
-                           
+      *>                         negative direction x
+                               perform varying coord-x-copy
+                               from coord-x-copy by -1 
+                               until coord-x-copy = 0 
+          *>                         plot x points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                    display "blah4"
+                               end-perform
+
+                           end-if
 
       *>                     set the prev coord to the one we just moved to
-                           move coord-x 
-                               to prev-x
-                           move coord-y 
-                               to prev-y
+                           move coord-x to prev-x
+                           move coord-y to prev-y
 
                            move sampleline(ws-start:ws-field-len)
                                to ws-text(ws-count)
@@ -530,34 +565,66 @@
 
                            display "index: " ws-count "coord: " states-coord(ws-count)
                            display "visited times: " states-visited-cnt(ws-count)
-
+                           
                            move spaces to ustringed-coord
-
+                           
       *>                     note: check visited need to plot every point visited
       *>                           on the graph including the starting point of each
       *>                           movement
-                           perform varying prev-x
-                           from 1 by 1 
-                           until prev-x = coord-x
-      *>                         plot x points in the range
-      *>                         where and how to store the points before plotting them in the table?
-                           end-perform
+      *>                           depending on the direction run the loop 
+      *>                           to plot those points in that direction
+                           if my-direction = north
+      *>                         positive direction y
+                               perform varying prev-y
+                               from 1 by 1 
+                               until prev-y = coord-y
+          *>                         plot y points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                   display "blah5"
+                               end-perform
+                           end-if
+                           if my-direction = south
+                               move 0 to coord-y-copy
+                               compute coord-y-copy = 0 + function abs(coord-y)
+                               
+      *>                         negative direction y
+                               perform varying coord-y-copy
+                               from coord-y-copy by -1 
+                               until coord-y-copy = 0
+          *>                         plot y points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                   display "blah6"
+                               end-perform
+                           end-if
+                           if my-direction = east
+      *>                         positive direction x
+                               perform varying prev-x
+                               from 1 by 1 
+                               until prev-x = coord-x
+                               
+          *>                         plot x points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                   display "blah7"
+                               end-perform
+                           end-if
+                           if my-direction = west
+                               move 0 to coord-x-copy
+                               compute coord-x-copy = 0 + function abs(coord-x)
 
-                           perform varying prev-y
-                           from 1 by 1 
-                           until prev-y = coord-y
-      *>                         plot y points in the range
-      *>                         where and how to store the points before plotting them in the table?
-                           end-perform
+      *>                         negative direction x
+                               perform varying coord-x-copy
+                               from coord-x-copy by -1 
+                               until coord-x-copy = 0 
+          *>                         plot x points in the range
+          *>                         where and how to store the points before plotting them in the table?
+                                   display "blah8"
+                               end-perform
 
-      *>                     note: set visited coords
-                           
+                           end-if
 
       *>                     set the prev coord to the one we just moved to
-                           move coord-x 
-                               to prev-x
-                           move coord-y 
-                               to prev-y
+                           move coord-x to prev-x
+                           move coord-y to prev-y
 
                            move sampleline(ws-start:ws-field-len)
                                to ws-text(ws-count)
