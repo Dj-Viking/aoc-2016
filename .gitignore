@@ -11,3 +11,6 @@ sample*
 
 # build script build files
 dist
+
+#rust
+target
