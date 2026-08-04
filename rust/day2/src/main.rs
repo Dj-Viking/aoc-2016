@@ -91,6 +91,11 @@ fn main() {
 			for i in 0..grid.len() {
 				println!("{:?}",grid[i]);
 			}
+			
+			//todo: if on the last instruction of the instruction row
+			// then update the passkey to the number that was last arrived to for the last
+			// instruction
+
 			// wait for enter key
 			println!("press enter to continue");
 			match io::stdin().read_line(&mut input) {
