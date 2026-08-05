@@ -132,6 +132,14 @@ fn part2() {
 }
 
 // the keypad is adjusted slightly to allow parsing easier
+/*
+*
+  1  
+ 2 3 4 
+5 6 7 8 9
+ A B C 
+  D  
+* */
 fn printgrid2(grid: &Vec<Vec<String>>) {
 	println!("     {:?}", grid[0]);
 	println!("    {:?}", grid[1]);
