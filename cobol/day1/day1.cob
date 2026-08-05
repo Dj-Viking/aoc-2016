@@ -330,7 +330,7 @@
                                       
           *>                         plot y points in the range
           *>                         where and how to store the points before plotting them in the table?
-                                 display "todo: start plotting points here"
+                                 display "todo: plot points here for north"
                                end-perform
                            end-if
                            if my-direction = south
@@ -343,7 +343,7 @@
                                until coord-y-copy = 0
           *>                         plot y points in the range
           *>                         where and how to store the points before plotting them in the table?
-                                   display "todo: start plotting points here"
+                                   display "todo: plot points here for south"
                                end-perform
                            end-if
       *>                     exit perform
@@ -355,7 +355,7 @@
                                
           *>                         plot x points in the range
           *>                         where and how to store the points before plotting them in the table?
-                                     display "blah3"
+                                     display "todo: plot x points here for east"
                                end-perform
                            end-if
                            if my-direction = west
@@ -368,7 +368,7 @@
                                until coord-x-copy = 0 
           *>                         plot x points in the range
           *>                         where and how to store the points before plotting them in the table?
-                                    display "blah4"
+                                    display "todo: plot x points here for west"
                                end-perform
 
                            end-if
