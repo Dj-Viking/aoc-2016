@@ -1,0 +1,31 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "name": "SuperBOL: debug (launch)",
+            "type": "superbol-gdb",
+            "request": "launch",
+            "preLaunchTask": "SuperBOL: build (debug)",
+            "target": "${file}",
+            "arguments": ""
+        },
+        {
+            "name": "SuperBOL: debug (attach local)",
+            "type": "superbol-gdb",
+            "request": "attach",
+            "pid": "${input:pid}",
+            "target": "${file}"
+        },
+        {
+            "name": "SuperBOL: debug (attach remote)",
+            "type": "superbol-gdb",
+            "request": "attach",
+            "remoteDebugger": "${input:remoteDebugger}",
+            "target": "${file}"
+        }
+    ]
+}

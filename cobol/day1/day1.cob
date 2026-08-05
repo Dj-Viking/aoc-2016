@@ -330,7 +330,7 @@
                                       
           *>                         plot y points in the range
           *>                         where and how to store the points before plotting them in the table?
-                                 display "blah1"
+                                 display "todo: start plotting points here"
                                end-perform
                            end-if
                            if my-direction = south
@@ -343,7 +343,7 @@
                                until coord-y-copy = 0
           *>                         plot y points in the range
           *>                         where and how to store the points before plotting them in the table?
-                                   display "blah2"
+                                   display "todo: start plotting points here"
                                end-perform
                            end-if
       *>                     exit perform
