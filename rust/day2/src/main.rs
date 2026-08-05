@@ -131,6 +131,7 @@ fn part2() {
 	println!("part2: {}", passkey);
 }
 
+// the keypad is adjusted slightly to allow parsing easier
 fn printgrid2(grid: &Vec<Vec<String>>) {
 	println!("     {:?}", grid[0]);
 	println!("    {:?}", grid[1]);
