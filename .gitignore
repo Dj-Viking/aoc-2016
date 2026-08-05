@@ -8,6 +8,7 @@ _superbol
 
 # aoc samples
 sample*
+input*
 
 # build script build files
 dist

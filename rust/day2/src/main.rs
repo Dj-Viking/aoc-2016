@@ -14,12 +14,10 @@ fn main() {
 		.unwrap();
 
 	let mut position: (usize, usize) = (1, 1);
-// 	position.0 = 2;
-// 	println!("{:?}", position);
-// (2, 0)
-// ()
 
-	let instructions = read_to_string("./sampleinstructions")
+	// let instructions = read_to_string("./sampleinstructions")
+	// 	.unwrap();
+	let instructions = read_to_string("./input")
 		.unwrap();
 
 	// todo: this needs to still be rows of letters for directions to the next number of the door
@@ -50,11 +48,11 @@ fn main() {
 	let mut passkey = String::new();
 
 	for row in 0..dirs.len() {
-		println!("dirs row is {:?}", dirs[row]);
+		// println!("dirs row is {:?}", dirs[row]);
 		let chars = dirs[row].chars().collect::<Vec<_>>();
 		for col in 0..chars.len() {
 			let direction_to_match = String::new() + &chars[col].to_string();
-			println!("direction is [{:?}]", direction_to_match);
+			// println!("direction is [{:?}]", direction_to_match);
 			let current_direction = match direction_to_match.as_str() {
 				"U" => { UP    },
 				"D" => { DOWN  },
@@ -63,14 +61,15 @@ fn main() {
 				_   => { panic!("unreachable reached...invalid direction");}
 			};
 
-			println!("current direction: {:?}", current_direction);
+			// println!("current direction: {:?}", current_direction);
 
 			// reset current position
 			grid[position.0][position.1] = grid[position.0][position.1].replace("[", "").replace("]", "");
 
 			// update current position according to current direction
 			position.0 = {
-				if ((position.0 as i8) + current_direction.0) < 0 || ((position.0 as i8) + current_direction.0) > ((grid.len() as i8) - 1)
+				if ((position.0 as i8) + current_direction.0) < 0 
+				|| ((position.0 as i8) + current_direction.0) > ((grid.len() as i8) - 1)
 				{
 					position.0
 				} else {
@@ -78,7 +77,8 @@ fn main() {
 				}
 			};
 			position.1 = {
-				if ((position.1 as i8) + current_direction.1 < 0) || ((position.1 as i8) + current_direction.1) > ((grid[0].len() as i8) - 1) 
+				if ((position.1 as i8) + current_direction.1 < 0) 
+				|| ((position.1 as i8) + current_direction.1) > ((grid[0].len() as i8) - 1) 
 				{
 					position.1
 				} else {
@@ -88,22 +88,26 @@ fn main() {
 
 			grid[position.0][position.1] = "[".to_string() + &grid[position.0][position.1] + "]";
 			
-			for i in 0..grid.len() {
-				println!("{:?}",grid[i]);
-			}
+			// for i in 0..grid.len() {
+			// 	println!("{:?}",grid[i]);
+			// }
 			
 			//todo: if on the last instruction of the instruction row
 			// then update the passkey to the number that was last arrived to for the last
 			// instruction
 
 			// wait for enter key
-			println!("press enter to continue");
-			match io::stdin().read_line(&mut input) {
-				Ok(n)  => { println!("================================================================"); },
-				Err(e) => { println!("error reading input: {:?}", e)}
-			}
+			// println!("press enter to continue");
+			// match io::stdin().read_line(&mut input) {
+			// 	Ok(n)  => { println!("================================================================"); },
+			// 	Err(e) => { println!("error reading input: {:?}", e)}
+			// }
 		}
+		// update passcode here at the end of chars len in instruction row
+		passkey = passkey + &(grid[position.0][position.1].replace("[", "").replace("]", ""));
+		// println!("***** passkey updated {}", passkey);
 	}
+	println!("part1: {}", passkey);
 	// part 1
 
 }
