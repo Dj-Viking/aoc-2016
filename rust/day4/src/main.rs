@@ -2,7 +2,13 @@ use std::fs;
 use std::collections::HashMap;
 
 fn main() {
-	part1();
+	// part1();
+	part2();
+}
+
+fn part2() {
+	let file = fs::read_to_string("./sample").unwrap();
+
 }
 
 fn part1() {
@@ -46,7 +52,6 @@ fn part1() {
 	println!("part1: {:?}", id_sum);
 }
 
-// todo: what to do here...
 //A room is real (not a decoy) 
 //if the checksum is the five most common letters 
 //in the encrypted name, 
